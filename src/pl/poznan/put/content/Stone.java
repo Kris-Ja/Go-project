@@ -1,3 +1,5 @@
+package GoGame;
+
 public class Stone
 {
 	private final State state;
@@ -6,7 +8,7 @@ public class Stone
 	public State state(){
 		return this.state;
 	}
-	//group() or liberties(), take_liberty(), etc.
+	
 	public Group group(){
 		return this.group;
 	}

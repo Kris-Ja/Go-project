@@ -1,3 +1,5 @@
+package GoGame;
+
 class IllegalPlacementException extends Exception
 {
 	IllegalPlacementException(String str){

@@ -1,3 +1,4 @@
+package GoGame;
 public class State
 {
 	private final int state;//0-empty, 1-black, 2-white

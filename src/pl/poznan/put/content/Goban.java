@@ -1,22 +1,23 @@
+package GoGame;
 import java.util.List;
 
-public class Board
+public class Goban implements Board
 {
 	private Stone[][] points = new Stone[19][19];
 	private Coordinates last_removed = null;
 	private final Stone empty_stone = new Stone();
 
 	private void removeGroup(Coordinates coordinates){
-		List<Coordinates> to_remove=points[coordinates.x][coordinates.y].group().listOfCoordinates();
+		List<Coordinates> to_remove=points[coordinates.x()][coordinates.y()].group().listOfCoordinates();
 		to_remove.forEach((Coordinates coor) -> {this.removeStone(coor);});
 	}
 
 	private Stone point(Coordinates coordinates){
-		return this.points[coordinates.x][coordinates.y];
+		return this.points[coordinates.x()][coordinates.y()];
 	}
 
 	private void putStone(Coordinates coordinates, Stone stone){
-		this.points[coordinates.x][coordinates.y] = stone;
+		this.points[coordinates.x()][coordinates.y()] = stone;
 	}
 
 	private void removeStone(Coordinates coordinates){
@@ -65,14 +66,13 @@ public class Board
 		Group[] own_groups = new Group[4];
 		int empty_neighbours=0;
 
-		if(last_removed!=null && placement.equal(last_removed)){
+		if(last_removed!=null && placement.equals(last_removed)){
 			boolean ko = true;
 			for(Coordinates neighbours : placement.neighbours())if(this.point(neighbours).state().empty()==true)ko=false;
 			if(ko==true)throw new IllegalPlacementException("Illegal stone placement: Ko rule\n");
 		}
 
 		for(Coordinates coor : placement.neighbours()){
-			//if(!points[coor.x][coor.y].state.empty() && points[coor.x][coor.y].state==state)
 			if(this.point(coor).state().empty()==false && this.point(coor).state().white()!=state.white()){
 				if(this.point(coor).group().liberties()==1){
 					removeGroup(coor);
@@ -88,7 +88,6 @@ public class Board
 		}
 		
 		for(Coordinates coor : placement.neighbours()){
-			//if(!points[coor.x][coor.y].state.empty() && points[coor.x][coor.y].state==state)
 			if(this.point(coor).state().empty()==false && this.point(coor).state().white()==state.white()){
 				boolean test=true;
 				for(int i=0; i<num_own_groups; i++)
@@ -156,7 +155,7 @@ public class Board
 		System.out.println("   A B C D E F G H I J K L M N O P Q R S");
 	}
 
-	public Board(){
+	public Goban(){
 		for(int i=0; i<19; i++)
 			for(int j=0; j<19; j++)
 				this.points[i][j]=empty_stone;
